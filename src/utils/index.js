@@ -17,6 +17,20 @@ const selectQueryFields = (queryObj, fields = []) => {
     return selectedFields;
 }
 
+const generateCacheKey = (req, obj) => {
+    const path = req.path;
+    // Checks if the object is empty and return a request path
+    if(Object.keys(obj).length === 0) {
+        return path;
+    }
+    
+    // Stringify an object like this {start: 1, limit: 3} to become start=1&limit-3
+    const stringifiedObj = new URLSearchParams(obj).toString();
+    return `${path}?${stringifiedObj}`;
+}
+
+
 module.exports = {
-    selectQueryFields
+    selectQueryFields,
+    generateCacheKey
 }
